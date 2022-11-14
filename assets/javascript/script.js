@@ -32,8 +32,8 @@ var quizDescription = document.querySelector("#quiz-description");
 var quizStartButton = document.querySelector("#quiz-button");
 
 // ========== ⬇ score variables ⬇ ==========
-// var score = 0;
-var score;
+var score = 0;
+// var score;
 var initials = "";
 var nameScorePair = {};
 // var scores = {};
@@ -148,7 +148,6 @@ function showNextQuestion() {
 // 想再加一个while playgame, click view-high-score will trigger confirm"you will lost your current progress"
 function playGame() {
 
-  // ⚠️第2道题后不显示resultSpan
   highScores.style.display = "none";
   startQuiz.style.display = "none";
   playQuiz.style.display = "flex";
@@ -194,9 +193,9 @@ function playGame() {
 function resultFadeOut() {
   var resultTimer = setInterval(function () {
     resultDisplay.remove();
-    // stop the remove() after 2s
-    clearInterval(resultTimer);
   }, 2000);
+  // stop the remove() after 2s
+  clearInterval(resultTimer);
 }
 
 // ========== ⬇ end of game variables ⬇ ==========
@@ -226,7 +225,7 @@ function stopGame() {
   // mainQuizBody.appendChild(finalScoreP);
   // // add user score display
   // ⚠️ 目前在游戏界面结束时分数显示为undefined
-  userScore.innerHTML = score.value;
+  userScore.innerHTML = score;
   // finalScoreP.appendChild(userScore);
   // // add save score button
   // saveBtn.textContent = "save score";

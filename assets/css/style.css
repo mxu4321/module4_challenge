@@ -133,9 +133,10 @@ body {
   background-image: linear-gradient(-45deg, var(--purple), var(--grape));
   cursor: pointer;
 }
-.answer-list button:focus {
+.answer-list .answerBtn:focus {
   background-image: linear-gradient(-45deg, var(--mediumblue), var(--darkblue));
 }
+/* 会出现下道题时颜色不消失 */
 .answer-list #d {
   margin-bottom: 35px;
 }
