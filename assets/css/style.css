@@ -41,7 +41,7 @@ body {
   }
 }
 
-/* ===== header: high scores & timer ===== */
+/* ===== header style ===== */
 .header {
   margin: 5%;
   display: flex;
@@ -84,9 +84,10 @@ body {
   background-color: var(--freeze);
 }
 
-.quiz-game #quiz-header {
+.quiz-game .quiz-header {
   padding: 1% 5% 5% 5%;
   font-size: larger;
+  color: var(--grey);
 }
 
 .quiz-game #quiz-button {
@@ -132,6 +133,9 @@ body {
   background-image: linear-gradient(-45deg, var(--purple), var(--grape));
   cursor: pointer;
 }
+.answer-list button:focus {
+  background-image: linear-gradient(-45deg, var(--mediumblue), var(--darkblue));
+}
 .answer-list #d {
   margin-bottom: 35px;
 }
@@ -144,18 +148,27 @@ body {
   color: var(--grey);
   font-style: italic;
 }
-
+.quiz-game #final-score-p {
+  line-height: 200%;
+  margin-bottom: 15px;
+}
 .quiz-game #name-input {
-  color: var(--violet);
-  font-size: 10px;
-  width: 22%;
+  color: var(--grape);
+  font-size: 17px;
+  width: 27%;
   line-height: 20px;
 }
+.quiz-game button {
+  margin-top: 20px;
+  margin-bottom: -15px;
+}
 
+.quiz-game #save-button {
+  padding: 10px;
+}
 
-/* ===== divider ===== */
+/* ===== divider===== */
 
-/* ===== divider ===== */
 
 /* ===== media query ===== */
 @media (min-width: 768px) {

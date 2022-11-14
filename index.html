@@ -18,20 +18,53 @@
       <h3>Time Left: <span id="timer">60</span>s</h3>
     </header>
 
-    <!-- game start interface-->
-    <main class="quiz-game">
-      <h1 id="quiz-header">Web APIs Code Quiz</h1>
+    <!-- game start page-->
+    <main class="quiz-game" id="start-quiz" style="display: flex;"><!-- 需要处理id/css display-->
+      <h1 id="quiz-header">Front End Code Quiz</h1>
       <pre id="quiz-description">
 Let's play the code quiz game! 🙌
 You will have 60 seconds to answer 8 questions.
 Incorrect answers will reduce your time left.
 Good Luck!✨✨✨
-        </pre>
-
-      <!-- display "correct" or "wrong" when user selected answer -->
-      <!-- <div id="result-display"></div> -->
+        </pre
+      >
       <button id="quiz-button" onclick="startGame()">Start Quiz</button>
     </main>
+
+    <!-- playing game page -->
+    <div class="quiz-game" id="play-quiz" style="display: none;"><!-- 需要处理id/css display-->
+      <h1 class="quiz-header" id="quiz-question"></h1>
+      <ol class="answer-list">
+        <button id="a" class="answerBtn"></button>
+        <button id="b" class="answerBtn"></button>
+        <button id="c" class="answerBtn"></button>
+        <button id="d" class="answerBtn"></button>
+      </ol>
+      <div id="result-display"></div>
+    </div>
+
+    <!-- game complete page -->
+    <div class="quiz-game" id="stop-quiz" style="display: none;"><!-- 需要处理id/css display-->
+      <h1 id="quiz-header">All done!</h1>
+      <p id="final-score-p">
+        Your final score is: <span id="user-score"></span>
+      </p>
+      <span id="enter-name-span">Enter your name initials: </span>
+      <input id="name-input" />
+      <button id="save-button">save score</button>
+    </div>
+
+    <!-- view high score page -->
+    <div class="quiz-game" id="high-scores" style="display: none;">
+      <h1 id="quiz-header">👑 High Score Rank 👑</h1>
+      <ol class="score-rank-list">
+        <li></li>
+        <li></li>
+        <li></li>
+      </ol>
+      <button id="go-back">Go Back</button>
+      <button id="clear-score">Clear Scores</button>
+    </div>
 
     <!-- link javascript files -->
     <script src="./assets/javascript/quizQuestions.js"></script>
