@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- link css files -->
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Code Quiz</title>
+  </head>
+  <body>
+    <!-- header display "view high scores" option and timer -->
+    <header class="header">
+      <h2 id="view-high-scores" onclick="displayHighScores()">
+        View High Scores
+      </h2>
+      <h3>Time Left: <span id="timer">60</span>s</h3>
+    </header>
+
+    <!-- game start interface-->
+    <main class="quiz-game">
+      <h1 id="quiz-header">Web APIs Code Quiz</h1>
+      <pre id="quiz-description">
+Let's play the code quiz game! 🙌
+You will have 60 seconds to answer 8 questions.
+Incorrect answers will reduce your time left.
+Good Luck!✨✨✨
+        </pre>
+
+      <!-- display "correct" or "wrong" when user selected answer -->
+      <!-- <div id="result-display"></div> -->
+      <button id="quiz-button" onclick="startGame()">Start Quiz</button>
+    </main>
+
+    <!-- link javascript files -->
+    <script src="./assets/javascript/quizQuestions.js"></script>
+    <script src="./assets/javascript/script.js"></script>
+  </body>
+</html>

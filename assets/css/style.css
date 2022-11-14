@@ -1,0 +1,165 @@
+/* ===== global setting ===== */
+:root {
+  --grey: #494d5f;
+  --purple: #6a4396;
+  --grape: #673fd7;
+  --violet: #d674e7;
+  --lilac: #d0bdf4;
+  --ice: #a0d2eb;
+  --freeze: #e5eaf5;
+  --darkblue: #455eb5;
+  --mediumblue: #5643cc;
+  --animation: 12s myGradient infinite;
+}
+
+* {
+  font-family: "Space Mono", monospace, sans-serif;
+}
+/* ===== background & animation ===== */
+body {
+  background-image: linear-gradient(
+    -45deg,
+    var(--purple),
+    var(--lilac),
+    var(--ice),
+    var(--grey)
+  );
+  animation: var(--animation);
+  background-size: 200% 200%;
+  text-shadow: 2px 8px 6px rgba(0, 0, 0, 0.2),
+    0px -5px 35px rgba(255, 255, 255, 0.3);
+}
+@keyframes myGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* ===== header: high scores & timer ===== */
+.header {
+  margin: 5%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.header #view-high-scores {
+  cursor: pointer;
+  color: var(--freeze);
+  text-shadow: 1px 1px 1px var(--grape), -2px 1px 5px var(--violet);
+}
+
+.quiz-game ol {
+  list-style-type: decimal;
+}
+
+.quiz-game button {
+  color: var(--freeze);
+  border-radius: 10px;
+  border-style: none;
+  margin: 5px auto;
+  padding: 1px 15px 1px 15px;
+  background-image: linear-gradient(-45deg, var(--purple), var(--grape));
+  cursor: pointer;
+}
+
+/* ===== main quiz game area ===== */
+.quiz-game {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 5% auto;
+  padding: 2%;
+  width: 65%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  border-radius: 15px;
+  text-align: center;
+  line-height: 1.5;
+  background-color: var(--freeze);
+}
+
+.quiz-game #quiz-header {
+  padding: 1% 5% 5% 5%;
+  font-size: larger;
+}
+
+.quiz-game #quiz-button {
+  margin: 15px;
+  background-image: linear-gradient(
+    92.88deg,
+    var(--darkblue) 9.16%,
+    var(--mediumblue) 43.89%,
+    var(--grape) 64.72%
+  );
+  animation: var(--animation);
+  background-size: 200% 200%;
+  border-radius: 8px;
+  border-style: none;
+  color: var(--freeze);
+  cursor: pointer;
+  height: 4rem;
+  padding: 0 1.6rem;
+  text-shadow: var(--grey) 0 3px 8px;
+  transition: all 0.5s;
+}
+
+.quiz-game #quiz-button:hover,
+.answer-list button:hover {
+  box-shadow: rgba(80, 63, 205, 0.5) 0 1px 30px;
+  transition-duration: 0.1s;
+}
+
+/* ===== quiz answers buttons style ===== */
+.answer-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 120px;
+}
+.answer-list button {
+  color: var(--freeze);
+  border-radius: 10px;
+  border-style: none;
+  margin: 5px auto;
+  width: 120%;
+  padding: 1px 5px 1px 5px;
+  background-image: linear-gradient(-45deg, var(--purple), var(--grape));
+  cursor: pointer;
+}
+.answer-list #d {
+  margin-bottom: 35px;
+}
+
+/* ===== quiz result display ===== */
+.quiz-game #result-display {
+  text-align: left;
+  border-top: 1px ridge var(--violet);
+  width: 80%;
+  color: var(--grey);
+  font-style: italic;
+}
+
+.quiz-game #name-input {
+  color: var(--violet);
+  font-size: 10px;
+  width: 22%;
+  line-height: 20px;
+}
+
+
+/* ===== divider ===== */
+
+/* ===== divider ===== */
+
+/* ===== media query ===== */
+@media (min-width: 768px) {
+  .quiz-game #quiz-button {
+    padding: 0 2.6rem;
+  }
+}
