@@ -51,6 +51,7 @@ var scores =
     : JSON.parse(localStorage.getItem("scores"));
 
 // ========== ⬇ high score display function ⬇ ==========
+viewHighScores.addEventListener("click", displayHighScores);
 function displayHighScores() {
   highScores.style.display = "flex";
   startQuiz.style.display = "none";
@@ -136,14 +137,12 @@ function playGame() {
   playQuiz.style.display = "flex";
 
   showNextQuestion();
-  //  ----- if user choose to see score during game will need to confirm if abandon current game ----- 
-  viewHighScores.addEventListener("click", abandonGame);
 
   //  ----- Get the ID of the answer button user clicked ----- 
   answerButtons.forEach((button) => {
     //  ----- when user clicked answer list button, trigger event ----- 
     button.addEventListener("click", function (e) {
-      e.stopPropagation;
+      e.stopPropagation; //⚠️ 有用吗？
       var buttonId = e.target.id;
       var isCorrect = buttonId === questions[currentQuestion].answer;
       if (!isCorrect) {
@@ -168,6 +167,8 @@ function playGame() {
       }
     });
   });
+//  ----- if user choose to see score during game will need to confirm if abandon current game ----- 
+  viewHighScores.addEventListener("click", abandonGame);
 }
 
 // ========== ⬇ jump to next question ⬇ ==========
@@ -180,20 +181,6 @@ function showNextQuestion() {
   return; 
 }
 
-// ========== ⬇ abandon game when user view score during game ⬇ ==========
-function abandonGame() {
-  //console.log("he");
-  var pressedOK = confirm(
-    "You will be directed to high scores rank list and lose the current progress"
-  );
-  if (pressedOK) {
-    clearInterval(timer);
-    timerSpan.innerHTML = "0";
-    displayHighScores();
-  } else {
-    return;
-  }
-}
 
 // ========== ⬇ fade out result display ⬇ ==========
 function resultFadeOut(element) {
@@ -240,6 +227,22 @@ function stopGame() {
   });
   score = 0;
   return;
+}
+
+// ========== ⬇ abandon game when user view score during game ⬇ ==========
+function abandonGame() {
+  var pressedOK = confirm(
+    "You will be directed to high scores rank list and lose the current progress"
+    );
+  if (pressedOK) {
+    clearInterval(timer);
+    timerSpan.innerHTML = "0";
+    displayHighScores();
+  } else {
+    highScores.style.display = "none";
+    playQuiz.style.display = "flex";
+    return false;
+  }
 }
 
 // ========== ⬇ initial validate function⬇ ==========
