@@ -191,7 +191,9 @@ function abandonGame() {
     timerSpan.innerHTML = "0";
     displayHighScores();
   } else {
-    return;
+    console.log("pressed Cancel");
+    return false;
+    // 目前点了cancel还是会跳转分数页面，同时倒计时为0后出现stopGame页面
   }
 }
 
