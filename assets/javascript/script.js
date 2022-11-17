@@ -224,7 +224,7 @@ function stopGame() {
     // console.log(initials);
 
     var letterBank = "ABCDEFGHIJKLMNOPQURSTUVWXYZ";
-    if (initialValidate(letterBank,initials)) {
+    if (initialValidate(letterBank,initials) && initials.length === 2) {
       nameScorePair.name = initials;
     } else {
       alert("Please enter 2 letters for your name initials")
