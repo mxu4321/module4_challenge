@@ -225,7 +225,7 @@ function stopGame() {
 
     var letterBank = "ABCDEFGHIJKLMNOPQURSTUVWXYZ";
     if (initialValidate(letterBank,initials) && initials.length === 2) {
-      nameScorePair.name = initials;
+      nameScorePair.name = initials.toUpperCase("");
     } else {
       alert("Please enter 2 letters for your name initials")
       return;
