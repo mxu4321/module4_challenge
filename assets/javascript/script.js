@@ -17,30 +17,41 @@
 //     * 10 questions with total 20 point, 2 points for each question
 //     * when user chose an option will automatically jump to next question
 //     * show current progress of how many questions left
+
 // ========== ⬇ game area variables ⬇ ==========
 var startQuiz = document.querySelector("#start-quiz");
 var playQuiz = document.querySelector("#play-quiz");
 var stopQuiz = document.querySelector("#stop-quiz");
 var highScores = document.querySelector("#high-scores");
+var timerSpan = document.querySelector("#timer");
+var timeLeft = 60; // initial time to 60 seconds
+var timer;
 
-// ========== ⬇ high score related variables ⬇ ==========
+// ========== ⬇ high score display page variables ⬇ ==========
 var viewHighScores = document.querySelector("#view-high-scores");
 var quizHeader = document.querySelector(".quiz-header");
-var mainQuizBody = document.querySelector(".quiz-game");
 var quizQuestion = document.querySelector("#quiz-question");
-var quizDescription = document.querySelector("#quiz-description");
-var quizStartButton = document.querySelector("#quiz-button");
+
+// ========== ⬇ quiz game variables ⬇ ==========
+var answerA = document.querySelector("#a");
+var answerB = document.querySelector("#b");
+var answerC = document.querySelector("#c");
+var answerD = document.querySelector("#d");
+var answerButtons = [answerA, answerB, answerC, answerD];
+var resultDisplay = document.querySelector("#result-display");
+var currentQuestion = 0;
 
 // ========== ⬇ score variables ⬇ ==========
 var score = 0;
-// var score;
 var initials = "";
-var nameScorePair = {};
-// var scores = {};
+var nameScorePair = { name: "", score: 0 };
+var scores =
+  JSON.parse(localStorage.getItem("scores")) == null
+    ? new Array(3).fill({ name: "", score: 0 })
+    : JSON.parse(localStorage.getItem("scores"));
 
 // ========== ⬇ high score display function ⬇ ==========
 function displayHighScores() {
-  // 💡TODO： 需要添加其他所有div情况⬇
   highScores.style.display = "flex";
   startQuiz.style.display = "none";
   playQuiz.style.display = "none";
@@ -49,53 +60,49 @@ function displayHighScores() {
   if (quizHeader.textContent == "👑 High Score Rank 👑") {
     return;
   }
-  // quizHeader.textContent = "👑 High Score Rank 👑";
-  // ----- get score rank list -----
-  var scoreRankList = document.querySelector("#score-rank-list");
-  var top1 = document.querySelector("li");
-  var top2 = document.querySelector("li");
-  var top3 = document.querySelector("li");
-  // ----- list will initially display as empty string when no input -----
-  top1.textContent = "";
-  top2.textContent = "";
-  top3.textContent = "";
-  // ----- get go back to home page button & function -----
+  // ------ go back button ------
   var goBackBtn = document.querySelector("#go-back");
-  goBackBtn.addEventListener("click", function () {
-    goBack(); 
-  });
-  function goBack(){
-    //  ⚠️目前go back是回到主页⬇
-    alert("You will be directed to home page");
-    startQuiz.style.display = "flex";
-    highScores.style.display = "none";
-    playQuiz.style.display = "none";
-    clearInterval(timer);
-    timerSpan.innerHTML = 0;
+  goBackBtn.addEventListener("click", goBack);
+  // ----- get rank list from HTML -----
+  var top1 = document.querySelector("#top1");
+  var top2 = document.querySelector("#top2");
+  var top3 = document.querySelector("#top3");
+  // ----- list will initially display as empty string when no input -----
+  top1.textContent = "Name: " + scores[0].name + " Score: " + scores[0].score;
+  top2.textContent = "Name: " + scores[1].name + " Score: " + scores[1].score;
+  top3.textContent = "Name: " + scores[2].name + " Score: " + scores[2].score;
+  return;
+};
+
+// ========== ⬇ clear score function ⬇ ==========
+function clearScore() {
+  var pressedOK = confirm(
+    "Press \"OK\" to clear the existing scoreboard."
+  );
+  if (pressedOK) {
+    scores = new Array(3).fill({ name: "", score: 0 });
+    localStorage.setItem("scores", JSON.stringify(scores));
+    displayHighScores();
   }
-
-  // ----- get clear score button & function -----
-  var clearScoreBtn = document.querySelector("clear-score");
-  clearScoreBtn.addEventListener("click", function () {
-    clearScore(); // TODO: declare function
-  });
 }
 
+// ========== ⬇ go back to start game page ⬇ ==========
 function goBack() {
-  alert("You will be directed to the start quiz page");
-  // to-do: game home page & function needed
+  alert("You will be directed to home page");
+  homePage();
 }
-// to-do: add save score to local & load score to call displayHighScore()
-// ========== ⬇ timer variables ⬇ ==========
-var timerSpan = document.querySelector("#timer");
-var timer;
-var timeLeft = 60; // initial time to 60 seconds
+
+// ========== ⬇ home page function ⬇ ==========
+function homePage() {
+  window.location.reload();
+}
 
 // ========== ⬇ start game function ⬇ ==========
-var currentQuestion = 0;
-// this function runs when user clicked "start quiz" button
+//  ----- this function runs when user clicked "start quiz" button ----- 
 function startGame() {
-  // shuffle the order of question array
+  startQuiz.style.display = "flex";
+  playQuiz.style.display = "none";
+  //  ----- shuffle the order of question array ----- 
   function shuffleQuestions() {
     for (var i = questions.length - 1; i > 0; i--) {
       var random = Math.floor(Math.random() * (i + 1));
@@ -105,76 +112,51 @@ function startGame() {
     }
   }
   shuffleQuestions();
-  // ----------- Timer Function -----------
+  //  -----  Timer Function  ----- 
   timer = setInterval(() => {
-    timeLeft--;
-    timerSpan.textContent = timeLeft.toString();
+    if (timeLeft > 0) {
+      timeLeft--;
+      timerSpan.textContent = timeLeft.toString();
+    } else {
+      //  ----- if no time left, stop game ----- 
+      clearInterval(timer);
+      timerSpan.innerHTML = "0";
+      stopGame();
+    }
   }, 1000);
-  //   var countdown = setInterval(timer(), 1000); //⚠️
-  // if left time === 0, stop game
-  if (timeLeft === 0) {
-    clearInterval(timer);
-    timerSpan.innerHTML = "0";
-    stopGame();
-  }
   playGame();
 }
 
-// ========== ⬇ quiz game variables ⬇ ==========
-var answerList = document.querySelector(".answer-list"); //
-var answerA = document.querySelector("#a");
-var answerB = document.querySelector("#b");
-var answerC = document.querySelector("#c");
-var answerD = document.querySelector("#d");
-var answerButtons = [answerA, answerB, answerC, answerD];
-var resultDisplay = document.querySelector("#result-display");
-
-// ========== ⬇ jump to next question ⬇ ==========
-function showNextQuestion() {
-  quizQuestion.textContent = questions[currentQuestion].prompt;
-  answerA.textContent = "1. " + questions[currentQuestion].a;
-  answerB.textContent = "2. " + questions[currentQuestion].b;
-  answerC.textContent = "3. " + questions[currentQuestion].c;
-  answerD.textContent = "4. " + questions[currentQuestion].d;
-
-  // add option to quiz game body
-  // answerList.append(answerA, answerB, answerC, answerD);
-  // mainQuizBody.append(answerList, resultDisplay);
-  //console.log("ShowingNextQuestion");
-  return; //Luis
-}
-
 // ========== ⬇ play quiz game function ⬇ ==========
-// 想再加一个while playgame, click view-high-score will trigger confirm"you will lost your current progress"
-function playGame() {
 
+function playGame() {
+  //  ----- display quiz page and hide other pages ----- 
   highScores.style.display = "none";
   startQuiz.style.display = "none";
   playQuiz.style.display = "flex";
-  // stopQuiz.style.display = "none";
 
-  // hide the start game description & button
-
-  // quizDescription.remove();
-  // quizStartButton.remove();
   showNextQuestion();
+  //  ----- if user choose to see score during game will need to confirm if abandon current game ----- 
+  viewHighScores.addEventListener("click", abandonGame);
 
-  // Get the ID of the answer button user clicked
-  // ⚠️目前这个条件可能没有被完全执行
+  //  ----- Get the ID of the answer button user clicked ----- 
   answerButtons.forEach((button) => {
-    // when user clicked answer list button, trigger event
+    //  ----- when user clicked answer list button, trigger event ----- 
     button.addEventListener("click", function (e) {
+      e.stopPropagation;
       var buttonId = e.target.id;
       var isCorrect = buttonId === questions[currentQuestion].answer;
       if (!isCorrect) {
-        // if user answered wrong, deduct by 5 seconds and display "wrong"
-        timeLeft = Math.max(timeLeft - 5, 0); //目前在最后一题不管用//Luis
+        //  ----- if user answered wrong, deduct by 5 seconds and display "wrong" ----- 
+        timeLeft = Math.max(timeLeft - 5, 0);
+        resultDisplay.style.display="block";
         resultDisplay.innerHTML = "wrong";
-        resultFadeOut();
+        resultFadeOut(resultDisplay);
       } else {
-        score += Math.round(100 / questions.length);
+        score += parseInt(100 / questions.length);
+        resultDisplay.style.display="block";
         resultDisplay.innerHTML = "correct";
-        resultFadeOut();
+        resultFadeOut(resultDisplay);
       }
       currentQuestion++;
       if (currentQuestion < questions.length) {
@@ -184,71 +166,93 @@ function playGame() {
         timerSpan.innerHTML = "0";
         stopGame();
       }
-      //   需要加个if条件判断是否所有题目都答完了 Luis
     });
   });
 }
 
+// ========== ⬇ jump to next question ⬇ ==========
+function showNextQuestion() {
+  quizQuestion.textContent = questions[currentQuestion].prompt;
+  answerA.textContent = "1. " + questions[currentQuestion].a;
+  answerB.textContent = "2. " + questions[currentQuestion].b;
+  answerC.textContent = "3. " + questions[currentQuestion].c;
+  answerD.textContent = "4. " + questions[currentQuestion].d;
+  return; 
+}
+
+// ========== ⬇ abandon game when user view score during game ⬇ ==========
+function abandonGame() {
+  //console.log("he");
+  var pressedOK = confirm(
+    "You will be directed to high scores rank list and lose the current progress"
+  );
+  if (pressedOK) {
+    clearInterval(timer);
+    timerSpan.innerHTML = "0";
+    displayHighScores();
+  } else {
+    return;
+  }
+}
+
 // ========== ⬇ fade out result display ⬇ ==========
-function resultFadeOut() {
-  var resultTimer = setInterval(function () {
-    resultDisplay.remove();
+function resultFadeOut(element) {
+  setTimeout(() => {
+    element.style.display="none";
   }, 2000);
-  // stop the remove() after 2s
-  clearInterval(resultTimer);
 }
 
 // ========== ⬇ end of game variables ⬇ ==========
-var questionNumber = questions.length; //曾经放在playGame()之前
 var finalScoreP = document.querySelector("#final-score-p");
-// finalScoreP.id = "final-score-p";
-var userScore = document.querySelector("#user-score");
-// userScore.id = "user-score";
 var enterNameSpan = document.querySelector("#enter-name-span");
-// enterNameSpan.id = "enter-name-span";
-// enterNameSpan.textContent = "Enter your name initials: "; //⚠️需加判断：是否为initials
-var nameInput = document.querySelector("#name-input");
-// nameInput.id = "name-input";
-var saveBtn = document.querySelector("#save-button");
-// saveBtn.id = "save-button";
+
 // ========== ⬇ end of game function ⬇ ==========
 function stopGame() {
-  // highScores.style.display = "none";
+  var userScore = document.querySelector("#user-score");
+  var saveBtn = document.querySelector("#save-button");
+
   startQuiz.style.display = "none";
   playQuiz.style.display = "none";
   stopQuiz.style.display = "flex";
-  // when finished all questions, game completed
-  // answerList.remove();
-  // quizHeader.innerHTML = "All done!";
-  // // add final score description
-  // finalScoreP.textContent = "Your final score is: ";
-  // mainQuizBody.appendChild(finalScoreP);
-  // // add user score display
-  // ⚠️ 目前在游戏界面结束时分数显示为undefined
-  userScore.innerHTML = score;
-  // finalScoreP.appendChild(userScore);
-  // // add save score button
-  // saveBtn.textContent = "save score";
-  // mainQuizBody.append(enterNameSpan, nameInput, saveBtn);
-  // //   function: save score to local & user initial
-  // score = 0;
+  viewHighScores.style.display = "none";
+  userScore.textContent = score;
+
+    //  ----- check user's input for name initials ----- 
+  saveBtn.addEventListener("click", function () {
+
+    initials = document.querySelector("#name-input").value;
+    // console.log(initials);
+
+    var letterBank = "ABCDEFGHIJKLMNOPQURSTUVWXYZ";
+    if (initialValidate(letterBank,initials)) {
+      nameScorePair.name = initials;
+    } else {
+      alert("Please enter 2 letters for your name initials")
+      return;
+    }
+
+    nameScorePair.score = parseInt(userScore.textContent);
+    scores.push(nameScorePair); //add new element to the array
+    scores.sort(compareFn); //sort the array with the defined compareFn function
+    scores = scores.slice(0, 3); //obtain only the first 3 elements
+    localStorage.setItem("scores", JSON.stringify(scores)); //store to local storage
+    displayHighScores(); //display high scores page
+  });
+  score = 0;
   return;
 }
 
-// ========== ⬇ save score and load score ⬇ ==========
-var userInitials = document.querySelector("name-input");
-saveBtn.addEventListener("click", function () {
-  initials = nameInput.value;
-  nameScorePair.name = initials;
-  nameScorePair.score = parseInt(userScore.textContent);
-  console.log(nameScorePair);
-});
-// ⚠️todo：设置localstorage
-// ⚠️todo： 设置sort score function
-// ⚠️todo：当点击view high score时显示从高到低排列三个nameSocrePair(getItem)
-// ⚠️todo：while playgame(),if clicked view high score, confirm(you'll lose the progress)
-
-// ========== ⬇ divider ⬇ ==========
-// ⚠️todo：go back
-// ⚠️todo：clear score
-// ========== ⬇ divider ⬇ ==========
+// ========== ⬇ initial validate function⬇ ==========
+function initialValidate(bank, initial) {
+  var arr_substr = initial.toUpperCase().split('');
+  for (each of arr_substr) {
+    if (!bank.includes(each)) {
+      return false;
+    }
+  }
+  return true;
+}
+// ========== ⬇ compare score function ⬇ ==========
+function compareFn(a, b) {
+  return b.score - a.score;
+}

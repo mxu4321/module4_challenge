@@ -19,7 +19,7 @@
     </header>
 
     <!-- game start page-->
-    <main class="quiz-game" id="start-quiz" style="display: flex;"><!-- 需要处理id/css display-->
+    <main class="quiz-game" id="start-quiz" style="display: flex">
       <h1 id="quiz-header">Front End Code Quiz</h1>
       <pre id="quiz-description">
 Let's play the code quiz game! 🙌
@@ -32,7 +32,7 @@ Good Luck!✨✨✨
     </main>
 
     <!-- playing game page -->
-    <div class="quiz-game" id="play-quiz" style="display: none;"><!-- 需要处理id/css display-->
+    <div class="quiz-game" id="play-quiz" style="display: none">
       <h1 class="quiz-header" id="quiz-question"></h1>
       <ol class="answer-list">
         <button id="a" class="answerBtn"></button>
@@ -44,7 +44,7 @@ Good Luck!✨✨✨
     </div>
 
     <!-- game complete page -->
-    <div class="quiz-game" id="stop-quiz" style="display: none;"><!-- 需要处理id/css display-->
+    <div class="quiz-game" id="stop-quiz" style="display: none">
       <h1 id="quiz-header">All done!</h1>
       <p id="final-score-p">
         Your final score is: <span id="user-score"></span>
@@ -55,15 +55,15 @@ Good Luck!✨✨✨
     </div>
 
     <!-- view high score page -->
-    <div class="quiz-game" id="high-scores" style="display: none;">
+    <div class="quiz-game" id="high-scores" style="display: none">
       <h1 id="quiz-header">👑 High Score Rank 👑</h1>
       <ol class="score-rank-list">
-        <li></li>
-        <li></li>
-        <li></li>
+        <li id="top1"></li>
+        <li id="top2"></li>
+        <li id="top3"></li>
       </ol>
       <button id="go-back">Go Back</button>
-      <button id="clear-score">Clear Scores</button>
+      <button id="clear-score" onclick="clearScore()">Clear Scores</button>
     </div>
 
     <!-- link javascript files -->

@@ -133,12 +133,14 @@ body {
   background-image: linear-gradient(-45deg, var(--purple), var(--grape));
   cursor: pointer;
 }
-.answer-list .answerBtn:focus {
-  background-image: linear-gradient(-45deg, var(--mediumblue), var(--darkblue));
-}
-/* 会出现下道题时颜色不消失 */
+
 .answer-list #d {
   margin-bottom: 35px;
+}
+
+.answer-list button:active,
+.quiz-game #quiz-button:active {
+  background: linear-gradient(180deg, var(--darkblue), var(--grey));
 }
 
 /* ===== quiz result display ===== */
@@ -169,7 +171,6 @@ body {
 }
 
 /* ===== divider===== */
-
 
 /* ===== media query ===== */
 @media (min-width: 768px) {
